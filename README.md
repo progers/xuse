@@ -1,4 +1,33 @@
 xuse
 ====
 
-SVG &lt;use> implementation on ShadowDOM
+SVG &lt;use> implementation built on ShadowDOM
+
+
+### TODO
+
+1. Need to flesh out the event model as there will be differences from SVG's instance tree.
+
+1. Need to find a testing story.
+
+
+### How to use xuse.js
+
+I hope this will eventually be empty but we're early days and it's a massive pain in the ass right now.
+
+1. You will need a custom build of Chromium with AuthorShadowDOMForAnyElement enabled. Check out Chromium and edit RuntimeEnabledFeatures.in:
+
+   Change: "AuthorShadowDOMForAnyElement" to: "AuthorShadowDOMForAnyElement status=stable"
+
+   Change: "ShadowDOM status=experimental" to "ShadowDOM status=stable"
+   
+   Then build and run. 
+1. Include xuse.js with &lt;script src="xuse.js">&lt;/script>
+1. Change your &lt;use ...> instances to &lt;x is="x-use" ...>
+
+
+### References
+
+SVG2 spec: https://svgwg.org/svg2-draft/single-page.html
+
+ShadowDOM spec primer: http://www.w3.org/TR/components-intro/#shadow-dom-section
