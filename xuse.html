@@ -6,19 +6,23 @@
 <body>
 <h2>SVG &lt;use&gt; using shadow dom</h2>
 <h3>Regular use:</h3>
-<svg width="120px" height="120px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="150px" height="100px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
   <defs>
-    <rect id="rect" width="100" height="100" fill="green"/>
+    <g id="g" transform="translate(50,0) rotate(45)">
+      <rect width="50" height="50" fill="green"/>
+    </g>
   </defs>
-  <use x="0" y="0" xlink:href="#rect" />
+  <use x="50" y="0" xlink:href="#g" />
 </svg>
 <h3>Shadow use:</h3>
-<svg width="120px" height="120px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="150px" height="100px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
   <defs>
-    <rect id="murect" width="100" height="100" fill="green"/>
+    <g id="mug" transform="translate(50,0) rotate(45)">
+      <rect width="50" height="50" fill="green"/>
+    </g>
   </defs>
   <!-- FIXME: for testing only. This should be 'use'. -->
-  <g is="x-use" id="mu" x="0" y="0" xlink:href="#murect" />
+  <g is="x-use" id="mu" x="50" y="0" xlink:href="#mug" />
 </svg>
 </body>
 </html>
