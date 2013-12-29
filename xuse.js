@@ -4,6 +4,9 @@ XUsePrototype._updateHrefAttribute = function(reclone) {
   var href = this.getAttributeNS('http://www.w3.org/1999/xlink', 'href');
   var hrefElement = document.querySelector(href);
 
+  // FIXME: Need to prevent cycles.
+  // FIXME: Need to disallow certain elements in the referenced subtree.
+
   if (this._targetElement != hrefElement) {
     // Clean up the old shadow tree and mutation observer.
     if (this._targetMutationObserver)
@@ -99,5 +102,5 @@ XUsePrototype.attributeChangedCallback = function(attributeName, oldValue, newVa
 
 document.registerElement('x-use', {
   prototype: XUsePrototype,
-  extends: 'g' // FIXME: for testing only. This should be 'use'.
+  extends: 'g' // FIXME: This should not extend <g>, see crbug.com/330980.
 });
