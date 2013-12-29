@@ -8,7 +8,7 @@ XUsePrototype._updateHrefAttribute = function(reclone) {
     // Clean up the old shadow tree and mutation observer.
     if (this._targetMutationObserver)
       this._targetMutationObserver.disconnect();
-    if (this._targetElement)
+    if (this._targetElement) // Note: still the old target.
       this.shadowRoot.innerHTML = '';
 
     // Update our target.
@@ -28,26 +28,32 @@ XUsePrototype._updateHrefAttribute = function(reclone) {
     }
   }
 
-  if (reclone && this._targetElement)
-    this.shadowRoot.appendChild(this._targetElement.cloneNode(true));
+  if (reclone && this._targetElement) {
+    this._localTransformElement = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    this._updateLocalTransform();
+    this._localTransformElement.appendChild(this._targetElement.cloneNode(true));
+    this.shadowRoot.appendChild(this._localTransformElement);
+  }
 
   // FIXME: Need to add a global mutation observer to listen for cases when document.querySelector(#href)
   //        changes. For example, if a new element is added to the document before the old target and
   //        with the same id, we need to update the target to refer to the first element that matches #href.
 };
 
-XUsePrototype._updateXAttribute = function() {
-  var x = this.getAttribute('x');
-  if (!x)
+// FIXME: Support the symbol and svg special cases in https://svgwg.org/svg2-draft/single-page.html#struct-UseElement
+XUsePrototype._updateLocalTransform = function() {
+  if (!this._localTransformElement)
     return;
-  console.log('updating x: ' + x);
-};
 
-XUsePrototype._updateYAttribute = function() {
-  var y = this.getAttribute('y');
-  if (!y)
+  var x = this.getAttribute('x') || 0;
+  var y = this.getAttribute('y') || 0;
+  if (!x && !y) {
+    this._localTransformElement.transform.baseVal.clear();
     return;
-  console.log('updating y: ' + y);
+  }
+
+  // FIXME: Implement this using the SVGMatrix/SVGTransformList API to avoid parsing.
+  this._localTransformElement.setAttribute('transform', 'translate(' + x + ',' + y + ')');
 };
 
 XUsePrototype._updateWidthAttribute = function() {
@@ -66,9 +72,8 @@ XUsePrototype._updateHeightAttribute = function() {
 
 XUsePrototype.createdCallback = function() {
   this.createShadowRoot();
+  this._updateLocalTransform();
   this._updateHrefAttribute();
-  this._updateXAttribute();
-  this._updateYAttribute();
   this._updateWidthAttribute();
   this._updateHeightAttribute();
 };
@@ -80,10 +85,8 @@ XUsePrototype.attributeChangedCallback = function(attributeName, oldValue, newVa
       this._updateHrefAttribute();
       break;
     case('x'):
-      this._updateXAttribute();
-      break;
     case('y'):
-      this._updateYAttribute();
+      this._updateLocalTransform();
       break;
     case('width'):
       this._updateWidthAttribute();
