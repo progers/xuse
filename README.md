@@ -32,4 +32,4 @@ I hope this will eventually be empty but we're early days and it's a massive pai
    
    Then build and run. 
 1. Include xuse.js with &lt;script src="xuse.js">&lt;/script>
-1. Change your &lt;use ...> instances to &lt;x is="x-use" ...>
+1. Change &lt;use ...> instances to &lt;g is="x-use" ...> (crbug.com/330980)
