@@ -1,3 +1,4 @@
+/Users/pdr/Desktop/xuse/tests/diamond.html
 /Users/pdr/Desktop/xuse/tests/W3C-SVG-1.1/struct-use-05-b.svg
 /Users/pdr/Desktop/xuse/tests/custom/use-animation-in-fill.html
 /Users/pdr/Desktop/xuse/tests/custom/use-clipped-hit.svg

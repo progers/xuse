@@ -1,0 +1,17 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <script src="../xuse.js"></script>
+</head>
+<body>
+  This test passes if you see a green diamond below:<br/>
+  <svg width="150px" height="100px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
+      <g id="g" transform="translate(50,0) rotate(45)">
+        <rect width="50" height="50" fill="green"/>
+      </g>
+    </defs>
+    <use x="50" y="0" xlink:href="#g" transform="rotate(10)"/>
+  </svg>
+</body>
+</html>
