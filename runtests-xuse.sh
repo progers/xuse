@@ -67,6 +67,7 @@ cp -r $testdir $xusetestdir
 
 # Update paths for xusetestdir's testlist.txt
 # FIXME: This could be more general and will fail on paths containing 'tests/'.
+# FIXME: the empty '' is due to OSX's old sed.
 sed -i '' 's/tests\//xusetests\//g' $xusetestlist
 
 # Read in the list of xusetests
@@ -75,8 +76,8 @@ IFS=$'\n' read -d '' -r -a xusetests < $xusetestlist
 for xusetest in "${xusetests[@]}"
 do
   # Replace <use with <g is='x-use'
-  sed -ie "s/<use/<g is='x-use' /g" $xusetest
-  sed -ie "s/<\/use/<\/g/g" $xusetest
+  # FIXME: the empty '' is due to OSX's old sed.
+  sed -i '' -e "s/<use/<g is='x-use' /g" -e "s/<\/use/<\/g /g" $xusetest
 done
 
 # Run the tests
