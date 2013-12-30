@@ -83,7 +83,8 @@ XUsePrototype.createdCallback = function() {
 
 XUsePrototype.attributeChangedCallback = function(attributeName, oldValue, newValue) {
   switch (attributeName) {
-    // FIXME: attributeChangedCallback doesn't support namespaces so we have to check for both xlink:href and href.
+    // FIXME: attributeChangedCallback doesn't support namespaces so we have to check for
+    // both xlink:href and href. See: https://www.w3.org/Bugs/Public/show_bug.cgi?id=24178
     case('xlink:href'): case('href'):
       this._updateHrefAttribute();
       break;
@@ -102,5 +103,5 @@ XUsePrototype.attributeChangedCallback = function(attributeName, oldValue, newVa
 
 document.registerElement('x-use', {
   prototype: XUsePrototype,
-  extends: 'g' // FIXME: This should not extend <g>, see crbug.com/330980.
+  extends: 'g' // FIXME: This should extend <use>.
 });
