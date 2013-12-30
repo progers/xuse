@@ -1,0 +1,14 @@
+# apple...
+.DS_Store
+.DS_Store?
+
+# tests result files
+failing_results.json
+full_results.json
+results.html
+stats.json
+times_ms.json
+*-actual.png
+*-actual.txt
+*-stderr.txt
+*-diff.txt
