@@ -32,6 +32,8 @@ XUsePrototype._updateHrefAttribute = function(reclone) {
   }
 
   if (reclone && this._targetElement) {
+    // FIXME: This is not exactly right because this <g> will match CSS selectors. To fix this
+    //        we should have a second shadow root inside the <g>. See: svg2-spec-use04.html
     this._localTransformElement = document.createElementNS('http://www.w3.org/2000/svg', 'g');
     this._updateLocalTransform();
     this._localTransformElement.appendChild(this._targetElement.cloneNode(true));
@@ -75,6 +77,7 @@ XUsePrototype._updateHeightAttribute = function() {
 
 XUsePrototype.createdCallback = function() {
   this.createShadowRoot();
+  this.shadowRoot.applyAuthorStyles = true;
   this._updateLocalTransform();
   this._updateHrefAttribute();
   this._updateWidthAttribute();

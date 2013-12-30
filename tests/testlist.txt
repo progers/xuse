@@ -1,1 +1,2 @@
 /Users/pdr/Desktop/xuse/tests/diamond.html
+/Users/pdr/Desktop/xuse/tests/svg2-spec-use04.html
