@@ -12,7 +12,7 @@ XUsePrototype._updateHrefAttribute = function(reclone) {
     if (this._targetMutationObserver)
       this._targetMutationObserver.disconnect();
     if (this._targetElement) // Note: still the old target.
-      this.shadowRoot.innerHTML = '';
+      this._localTransformElement.innerHTML = '';
 
     // Update our target.
     this._targetElement = hrefElement;
@@ -32,12 +32,8 @@ XUsePrototype._updateHrefAttribute = function(reclone) {
   }
 
   if (reclone && this._targetElement) {
-    // FIXME: This is not exactly right because this <g> will match CSS selectors. To fix this
-    //        we should have a second shadow root inside the <g>. See: svg2-spec-use04.html
-    this._localTransformElement = document.createElementNS('http://www.w3.org/2000/svg', 'g');
     this._updateLocalTransform();
     this._localTransformElement.appendChild(this._targetElement.cloneNode(true));
-    this.shadowRoot.appendChild(this._localTransformElement);
   }
 
   // FIXME: Need to add a global mutation observer to listen for cases when document.querySelector(#href)
@@ -47,9 +43,6 @@ XUsePrototype._updateHrefAttribute = function(reclone) {
 
 // FIXME: Support the symbol and svg special cases in https://svgwg.org/svg2-draft/single-page.html#struct-UseElement
 XUsePrototype._updateLocalTransform = function() {
-  if (!this._localTransformElement)
-    return;
-
   var x = this.getAttribute('x') || 0;
   var y = this.getAttribute('y') || 0;
   if (!x && !y) {
@@ -76,8 +69,19 @@ XUsePrototype._updateHeightAttribute = function() {
 };
 
 XUsePrototype.createdCallback = function() {
-  this.createShadowRoot();
-  this.shadowRoot.applyAuthorStyles = true;
+  // This is what we want, but it's not possible due to https://www.w3.org/Bugs/Public/show_bug.cgi?id=24181
+  // As a result, css selectors will incorrectly match our inner <g> until this is fixed.
+  // this._transformedRoot = this.createShadowRoot();
+  // this._shadowRoot = this.createShadowRoot();
+  // this._localTransformElement = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+  // this._localTransformElement.appendChild(this._transformedRoot);
+  // this._shadowRoot.appendChild(this._localTransformElement);
+
+  this._shadowRoot = this.createShadowRoot();
+  this._shadowRoot.applyAuthorStyles = true;
+  this._localTransformElement = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+  this._shadowRoot.appendChild(this._localTransformElement);
+
   this._updateLocalTransform();
   this._updateHrefAttribute();
   this._updateWidthAttribute();
